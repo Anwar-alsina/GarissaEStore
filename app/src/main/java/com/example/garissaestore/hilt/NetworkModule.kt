@@ -3,6 +3,7 @@ package com.example.garissaestore.hilt
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.garissaestore.MainActivity
+import com.example.garissaestore.ProductsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,8 +40,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesProductsService(retrofit: Retrofit): MainActivity.ProductsService{
-        return retrofit.create(MainActivity.ProductsService::class.java)
+    fun providesProductsService(retrofit: Retrofit): ProductsService {
+        return retrofit.create(ProductsService::class.java)
 
     }
 }

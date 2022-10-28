@@ -4,5 +4,6 @@ import com.example.garissaestore.model.domain.Product
 
 data class ApplicationState(
     val products: List<Product> = emptyList(),
-    val favouriteProductIds: Set<Int> = emptySet()
+    val favouriteProductIds: Set<Int> = emptySet(),
+    val expandedProductIds: Set<Int> = emptySet()
 )

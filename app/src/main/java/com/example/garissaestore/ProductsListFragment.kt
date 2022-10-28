@@ -45,10 +45,15 @@ class ProductsListFragment : Fragment() {
 
         combine(
             viewModel.store.stateFlow.map { it.products},
-            viewModel.store.stateFlow.map { it.favouriteProductIds }
-        ){lisOfProducts, setOfFavouriteIds ->
+            viewModel.store.stateFlow.map { it.favouriteProductIds },
+            viewModel.store.stateFlow.map { it.expandedProductIds }
+        ){lisOfProducts, setOfFavouriteIds, setOfExpandedProductIds ->
             lisOfProducts.map{ products ->
-                UiProduct(product = products, isFavourite = setOfFavouriteIds.contains(products.id) )
+                UiProduct(
+                    product = products,
+                    isFavourite = setOfFavouriteIds.contains(products.id),
+                    isExpanded = setOfExpandedProductIds.contains(products.id)
+                )
             }
         }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner){ uiProduct ->
             controller.setData(uiProduct)

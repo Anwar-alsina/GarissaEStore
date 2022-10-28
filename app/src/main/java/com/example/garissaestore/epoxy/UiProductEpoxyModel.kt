@@ -12,7 +12,8 @@ import kotlin.reflect.KFunction1
 
 data class UiProductEpoxyModel(
     val uiProduct: UiProduct?,
-    val onFavouriteIconClicked: (Int) -> Unit
+    val onFavouriteIconClicked: (Int) -> Unit,
+    val onUiProductClicked: (Int) -> Unit
 ): ViewBindingKotlinModel<EpoxyModelProductItemBinding>(R.layout.epoxy_model_product_item){
 
     private val currencyFormatter = NumberFormat.getCurrencyInstance()
@@ -29,6 +30,10 @@ data class UiProductEpoxyModel(
         productDescriptionTextView.text = uiProduct.product.description
         productCategoryTextView.text = uiProduct.product.category
         productPriceTextView.text = currencyFormatter.format(uiProduct.product.price)
+
+         //Expanded state
+         productDescriptionTextView.isVisible = uiProduct.isExpanded
+         root.setOnClickListener { onUiProductClicked(uiProduct.product.id) }
 
         //Favourite icon
         val imageRes = if (uiProduct.isFavourite){

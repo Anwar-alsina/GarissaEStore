@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.garissaestore.databinding.ActivityMainBinding
 import com.example.garissaestore.epoxy.UiProductEpoxyController
@@ -25,9 +27,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val appBarConfiguration = AppBarConfiguration(
+            topLevelDestinationIds = setOf(
+                R.id.productsListFragment,
+                R.id.profileFragment
+            )
+        )
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
     }
 }

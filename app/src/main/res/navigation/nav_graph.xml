@@ -10,4 +10,11 @@
         android:name="com.example.garissaestore.ProductsListFragment"
         android:label="Products List"
         tools:layout="@layout/fragment_products_list" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.garissaestore.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+
 </navigation>

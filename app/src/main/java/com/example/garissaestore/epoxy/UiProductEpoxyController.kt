@@ -2,12 +2,12 @@ package com.example.garissaestore.epoxy
 
 import androidx.lifecycle.viewModelScope
 import com.airbnb.epoxy.TypedEpoxyController
-import com.example.garissaestore.MainActivityViewModel
+import com.example.garissaestore.ProductListViewModel
 import com.example.garissaestore.model.ui.UiProduct
 import kotlinx.coroutines.launch
 
 class UiProductEpoxyController(
-    private val viewModel: MainActivityViewModel
+    private val viewModel: ProductListViewModel
 ): TypedEpoxyController<List<UiProduct>>() {
     override fun buildModels(data: List<UiProduct>?) {
         if (data.isNullOrEmpty()) {

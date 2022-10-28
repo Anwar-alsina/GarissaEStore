@@ -9,6 +9,7 @@ import com.example.garissaestore.model.domain.Product
 import com.example.garissaestore.redux.ApplicationState
 import com.example.garissaestore.redux.Store
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

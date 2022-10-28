@@ -67,9 +67,10 @@ dependencies {
     //Epoxy
     implementation "com.airbnb.android:epoxy:5.0.0"
 
+    //Facebook Shimmer (Loading state)
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-
-
+    
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'

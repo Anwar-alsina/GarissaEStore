@@ -12,6 +12,8 @@ import com.example.garissaestore.databinding.ActivityMainBinding
 import com.example.garissaestore.epoxy.ProductEpoxyController
 import com.example.garissaestore.model.domain.Product
 import com.example.garissaestore.model.mapper.ProductMapper
+import com.example.garissaestore.model.network.NetworkProduct
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -34,16 +36,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val controller = ProductEpoxyController()
         binding.epoxyRecyclerView.setController(controller)
+        controller.setData(emptyList())
 
         lifecycleScope.launchWhenStarted {
-            val response = productsService.getAllProducts()
+            val response: Response<List<NetworkProduct>> = productsService.getAllProducts()
             val domainProducts :List<Product> = response.body()?.map{
-                productMapper.buildFrom(it)
+                productMapper.buildFrom(networkProduct = it)
             }?: emptyList()
             controller.setData(domainProducts)
-            Log.i("DATA", response.body()!!.toString())
+
+            if (domainProducts.isEmpty()){
+                Snackbar.make(binding.root,"Failed to fetch",Snackbar.LENGTH_LONG).show()
+            }
         }
 
     }

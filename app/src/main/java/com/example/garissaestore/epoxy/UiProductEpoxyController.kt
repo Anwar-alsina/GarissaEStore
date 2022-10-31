@@ -9,39 +9,46 @@ import com.example.garissaestore.model.domain.Filter
 import com.example.garissaestore.model.ui.ProductListFragmentUiState
 import com.example.garissaestore.model.ui.UiProduct
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class UiProductEpoxyController(
     private val viewModel: ProductListViewModel
 ): TypedEpoxyController<ProductListFragmentUiState>() {
     override fun buildModels(data: ProductListFragmentUiState?) {
-        if (data == null) {
-            repeat(7){
-                val epoxyId = it + 1
-                UiProductEpoxyModel(
-                    uiProduct = null,
-                    onFavouriteIconClicked = ::onFavouriteIconClicked,
-                    onUiProductClicked = ::onUiProductClicked
-                ).id(epoxyId).addTo(this)
+
+        when (data) {
+            is ProductListFragmentUiState.Success -> {
+                val uiFilterModels = data.filters.map { uiFilter ->
+                    UiProductFilterEpoxyModel(
+                        uiFilter = uiFilter,
+                        onFilterSelected = ::onFilterSelected
+                    ).id(uiFilter.filter.value)
+                }
+
+                CarouselModel_().models(uiFilterModels).id("filters").addTo(this)
+
+                data.product.forEach { uiProduct ->
+                    UiProductEpoxyModel(
+                        uiProduct = uiProduct,
+                        onFavouriteIconClicked = ::onFavouriteIconClicked,
+                        onUiProductClicked = ::onUiProductClicked
+
+                    ).id(uiProduct.product.id).addTo(this)
+                }
             }
-            return
-        }
-        //Carousel Filters
-        val uiFilterModels = data.filters.map { uiFilter ->
-            UiProductFilterEpoxyModel(
-                uiFilter = uiFilter,
-                onFilterSelected = ::onFilterSelected
-            ).id(uiFilter.filter.value)
-        }
-
-        CarouselModel_().models(uiFilterModels).id("filters").addTo(this)
-
-        data.product.forEach { uiProduct ->
-            UiProductEpoxyModel(
-                uiProduct = uiProduct,
-                onFavouriteIconClicked = ::onFavouriteIconClicked,
-                onUiProductClicked = ::onUiProductClicked
-
-            ).id(uiProduct.product.id).addTo(this)
+            is ProductListFragmentUiState.Loading -> {
+                repeat(7) {
+                    val epoxyId = UUID.randomUUID().toString()
+                    UiProductEpoxyModel(
+                        uiProduct = null,
+                        onFavouriteIconClicked = ::onFavouriteIconClicked,
+                        onUiProductClicked = ::onUiProductClicked
+                    ).id(epoxyId).addTo(this)
+                }
+            }
+            else -> {
+                throw RuntimeException("Unhandled branch! $data")
+            }
         }
 
     }

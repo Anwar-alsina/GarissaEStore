@@ -43,16 +43,20 @@ class ProductsListFragment : Fragment() {
 
         val controller = UiProductEpoxyController(viewModel)
         binding.epoxyRecyclerView.setController(controller)
-        //controller.setData(emptyList())
+        //controller.setData(ProductListFragmentUiState.Loading)
 
         combine(
             viewModel.store.stateFlow.map { it.products},
             viewModel.store.stateFlow.map { it.favouriteProductIds },
             viewModel.store.stateFlow.map { it.expandedProductIds },
             viewModel.store.stateFlow.map { it.productFilterInfo }
-        ){lisOfProducts, setOfFavouriteIds, setOfExpandedProductIds, productFilterInfo ->
+        ){listOfProducts, setOfFavouriteIds, setOfExpandedProductIds, productFilterInfo ->
 
-            val uiProducts = lisOfProducts.map{ products ->
+            if (listOfProducts.isEmpty()){
+                return@combine ProductListFragmentUiState.Loading
+            }
+
+            val uiProducts = listOfProducts.map{ products ->
                 UiProduct(
                     product = products,
                     isFavourite = setOfFavouriteIds.contains(products.id),
@@ -72,7 +76,7 @@ class ProductsListFragment : Fragment() {
                 uiProducts.filter { it.product.category == productFilterInfo.selectedFilter.value }
             }
 
-            return@combine ProductListFragmentUiState(uiFilters,filteredProducts)
+            return@combine ProductListFragmentUiState.Success(uiFilters,filteredProducts)
 
         }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner){ uiProduct ->
             controller.setData(uiProduct)

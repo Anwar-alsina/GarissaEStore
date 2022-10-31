@@ -49,8 +49,9 @@ class ProductsListFragment : Fragment() {
             viewModel.store.stateFlow.map { it.products},
             viewModel.store.stateFlow.map { it.favouriteProductIds },
             viewModel.store.stateFlow.map { it.expandedProductIds },
-            viewModel.store.stateFlow.map { it.productFilterInfo }
-        ){listOfProducts, setOfFavouriteIds, setOfExpandedProductIds, productFilterInfo ->
+            viewModel.store.stateFlow.map { it.productFilterInfo },
+            viewModel.store.stateFlow.map { it.inCartProductIds }
+        ){listOfProducts, setOfFavouriteIds, setOfExpandedProductIds, productFilterInfo, inCartproductIds ->
 
             if (listOfProducts.isEmpty()){
                 return@combine ProductListFragmentUiState.Loading
@@ -60,7 +61,8 @@ class ProductsListFragment : Fragment() {
                 UiProduct(
                     product = products,
                     isFavourite = setOfFavouriteIds.contains(products.id),
-                    isExpanded = setOfExpandedProductIds.contains(products.id)
+                    isExpanded = setOfExpandedProductIds.contains(products.id),
+                    isInCart = inCartproductIds.contains(products.id)
                 )
             }
             val uiFilters = productFilterInfo.filters.map { filter ->

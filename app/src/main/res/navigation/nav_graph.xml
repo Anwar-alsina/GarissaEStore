@@ -15,6 +15,11 @@
         android:name="com.example.garissaestore.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.garissaestore.CartFragment"
+        android:label="Your Cart"
+        tools:layout="@layout/fragment_cart" />
 
 
 </navigation>

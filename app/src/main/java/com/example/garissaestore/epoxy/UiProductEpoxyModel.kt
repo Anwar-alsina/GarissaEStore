@@ -13,7 +13,8 @@ import kotlin.reflect.KFunction1
 data class UiProductEpoxyModel(
     val uiProduct: UiProduct?,
     val onFavouriteIconClicked: (Int) -> Unit,
-    val onUiProductClicked: (Int) -> Unit
+    val onUiProductClicked: (Int) -> Unit,
+    val onAddToCartClicked: (Int) -> Unit
 ): ViewBindingKotlinModel<EpoxyModelProductItemBinding>(R.layout.epoxy_model_product_item){
 
     private val currencyFormatter = NumberFormat.getCurrencyInstance()
@@ -45,6 +46,12 @@ data class UiProductEpoxyModel(
             favoriteImageView.setOnClickListener {
                 onFavouriteIconClicked(uiProduct.product.id)
             }
+
+        //IN Cart Status
+        inCartView.isVisible = uiProduct.isInCart
+        addToCartButton.setOnClickListener {
+            onAddToCartClicked(uiProduct.product.id)
+        }
 
         //load image
         productImageViewLoadingProgressBar.isVisible = true

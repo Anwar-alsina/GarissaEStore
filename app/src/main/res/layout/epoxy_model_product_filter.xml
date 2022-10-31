@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:layout_gravity="center"
-    app:cardCornerRadius="12dp"
     app:cardBackgroundColor="@color/purple_200"
+    app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="0dp"
     app:strokeColor="@color/purple_500"
     app:strokeWidth="1dp">
@@ -15,11 +14,11 @@
         android:id="@+id/tvFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:includeFontPadding="false"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="4dp"
-        android:textColor="#263238"
-        tool:text="Jewelry" />
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tools:text="jewelry" />
 
 </com.google.android.material.card.MaterialCardView>

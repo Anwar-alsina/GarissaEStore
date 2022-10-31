@@ -1,16 +1,20 @@
 package com.example.garissaestore.epoxy
 
 import androidx.lifecycle.viewModelScope
+import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.example.garissaestore.ProductListViewModel
+import com.example.garissaestore.UiProductFilterEpoxyModel
+import com.example.garissaestore.model.domain.Filter
+import com.example.garissaestore.model.ui.ProductListFragmentUiState
 import com.example.garissaestore.model.ui.UiProduct
 import kotlinx.coroutines.launch
 
 class UiProductEpoxyController(
     private val viewModel: ProductListViewModel
-): TypedEpoxyController<List<UiProduct>>() {
-    override fun buildModels(data: List<UiProduct>?) {
-        if (data.isNullOrEmpty()) {
+): TypedEpoxyController<ProductListFragmentUiState>() {
+    override fun buildModels(data: ProductListFragmentUiState?) {
+        if (data == null) {
             repeat(7){
                 val epoxyId = it + 1
                 UiProductEpoxyModel(
@@ -21,8 +25,17 @@ class UiProductEpoxyController(
             }
             return
         }
+        //Carousel Filters
+        val uiFilterModels = data.filters.map { uiFilter ->
+            UiProductFilterEpoxyModel(
+                uiFilter = uiFilter,
+                onFilterSelected = ::onFilterSelected
+            ).id(uiFilter.filter.value)
+        }
 
-        data.forEach { uiProduct ->
+        CarouselModel_().models(uiFilterModels).id("filters").addTo(this)
+
+        data.product.forEach { uiProduct ->
             UiProductEpoxyModel(
                 uiProduct = uiProduct,
                 onFavouriteIconClicked = ::onFavouriteIconClicked,
@@ -58,6 +71,22 @@ class UiProductEpoxyController(
                     currentExpandedId + setOf(productId)
                 }
                 return@update currentState.copy(expandedProductIds = newExpandedIds)
+            }
+        }
+    }
+    private fun onFilterSelected(filter: Filter){
+        viewModel.viewModelScope.launch {
+            viewModel.store.update { currentState ->
+                val currentSelectedFilter = currentState.productFilterInfo.selectedFilter
+                return@update currentState.copy(
+                    productFilterInfo = currentState.productFilterInfo.copy(
+                        selectedFilter = if (currentSelectedFilter != filter ){
+                            filter
+                        }else{
+                            null
+                        }
+                    )
+                )
             }
         }
     }

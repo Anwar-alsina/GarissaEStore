@@ -31,6 +31,7 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //todo
+        //throw RuntimeException("Hello Firebase")
     }
 
     override fun onDestroy() {

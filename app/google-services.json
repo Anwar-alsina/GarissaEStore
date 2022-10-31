@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "785138425338",
+    "project_id": "garissa-e-store",
+    "storage_bucket": "garissa-e-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785138425338:android:2cff152637edec28411843",
+        "android_client_info": {
+          "package_name": "com.example.garissaestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785138425338-e9s96a5vadq8odkvge404da82vso1in7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9STx9Aup7YeR2IFapvLADJYyfrZICr-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785138425338-e9s96a5vadq8odkvge404da82vso1in7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

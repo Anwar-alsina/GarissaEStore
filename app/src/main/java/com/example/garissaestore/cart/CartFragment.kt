@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import com.example.garissaestore.MainActivity
+import com.example.garissaestore.R
 import com.example.garissaestore.databinding.FragmentCartBinding
 import com.example.garissaestore.model.ui.UiProduct
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +35,11 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val epoxyController = CartFragmentEpoxyController()
+        val epoxyController = CartFragmentEpoxyController(viewModel, onEmptyStateClicked = {
+            //navigate
+            (activity as? MainActivity)?.navigateToTab(R.id.productsListFragment)
+
+        })
         binding.rvEpoxy.setController(epoxyController)
 
         viewModel.uiProductListReducer.reduce(store = viewModel.store).map {uiProducts ->

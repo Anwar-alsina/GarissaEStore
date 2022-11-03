@@ -11,7 +11,7 @@ import com.example.garissaestore.model.ui.UiProduct
 
 data class CartItemEpoxyModel(
     private val uiProduct: UiProduct,
-    private val onFavouriteClicked: () -> Unit,
+    val onFavouriteClicked: () -> Unit,
     private val onDeleteClicked: () -> Unit,
     @Dimension(unit = Dimension.PX) private val horizontalMargin: Int
 ): ViewBindingKotlinModel<EpoxyModelCartProductItemBinding>(R.layout.epoxy_model_cart_product_item){
@@ -26,9 +26,9 @@ data class CartItemEpoxyModel(
             R.drawable.ic_fav_not_filled
         }
         favoriteImageView.setIconResource(imageRes)
-        favoriteImageView.setOnClickListener { onFavouriteClicked }
+        favoriteImageView.setOnClickListener { onFavouriteClicked() }
 
-        //icDelete.setOnClickListener { onDeleteClicked }
+        deleteItem.setOnClickListener { onDeleteClicked() }
 
         //Load the image
         productImageView.load(data = uiProduct.product.image)

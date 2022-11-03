@@ -1,6 +1,7 @@
-package com.example.garissaestore
+package com.example.garissaestore.list
 
 import androidx.core.content.ContextCompat
+import com.example.garissaestore.R
 import com.example.garissaestore.databinding.EpoxyModelProductFilterBinding
 import com.example.garissaestore.epoxy.ViewBindingKotlinModel
 import com.example.garissaestore.model.domain.Filter

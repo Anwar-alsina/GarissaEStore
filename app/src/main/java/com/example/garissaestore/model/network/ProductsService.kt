@@ -1,4 +1,4 @@
-package com.example.garissaestore
+package com.example.garissaestore.model.network
 
 import com.example.garissaestore.model.network.NetworkProduct
 import retrofit2.Response

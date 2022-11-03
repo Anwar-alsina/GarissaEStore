@@ -1,5 +1,6 @@
-package com.example.garissaestore
+package com.example.garissaestore.list
 
+import com.example.garissaestore.model.network.ProductsService
 import com.example.garissaestore.model.domain.Product
 import com.example.garissaestore.model.mapper.ProductMapper
 import javax.inject.Inject

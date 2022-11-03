@@ -1,9 +1,6 @@
 package com.example.garissaestore.hilt
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.example.garissaestore.MainActivity
-import com.example.garissaestore.ProductsService
+import com.example.garissaestore.model.network.ProductsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

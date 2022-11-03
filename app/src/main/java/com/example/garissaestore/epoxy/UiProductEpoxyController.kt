@@ -3,11 +3,10 @@ package com.example.garissaestore.epoxy
 import androidx.lifecycle.viewModelScope
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
-import com.example.garissaestore.ProductListViewModel
-import com.example.garissaestore.UiProductFilterEpoxyModel
+import com.example.garissaestore.list.ProductListViewModel
+import com.example.garissaestore.list.UiProductFilterEpoxyModel
 import com.example.garissaestore.model.domain.Filter
 import com.example.garissaestore.model.ui.ProductListFragmentUiState
-import com.example.garissaestore.model.ui.UiProduct
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -58,13 +57,10 @@ class UiProductEpoxyController(
     private fun onFavouriteIconClicked(selectedProductId: Int){
         viewModel.viewModelScope. launch {
             viewModel.store.update { currentState ->
-                val currentFavouriteIds = currentState.favouriteProductIds
-                val newFavouriteIds = if (currentFavouriteIds.contains(selectedProductId)) {
-                    currentFavouriteIds.filter { it != selectedProductId }.toSet()
-                } else{
-                    currentFavouriteIds + setOf(selectedProductId)
-                }
-                return@update currentState.copy(favouriteProductIds = newFavouriteIds)
+                return@update viewModel.uiProductFavouriteUpdater.onProductFavourite(
+                    productId = selectedProductId,
+                    currentState = currentState
+                )
             }
         }
 
@@ -104,13 +100,10 @@ class UiProductEpoxyController(
     private fun onAddToCartClicked(productId: Int){
         viewModel.viewModelScope.launch {
             viewModel.store.update {currentState ->
-                val currentProductIdsInCart = currentState.inCartProductIds
-                val newProductIdsInCart = if (currentProductIdsInCart.contains(productId)) {
-                    currentProductIdsInCart.filter { it != productId }.toSet()
-                } else{
-                    currentProductIdsInCart + setOf(productId)
-                }
-                return@update currentState.copy(inCartProductIds = newProductIdsInCart)
+                return@update viewModel.uiProductInCartUpdater.update(
+                    productId = productId,
+                    currentState = currentState
+                )
             }
         }
     }

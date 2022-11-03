@@ -1,4 +1,4 @@
-package com.example.garissaestore
+package com.example.garissaestore.list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductsListFragment : Fragment() {
@@ -24,10 +25,9 @@ class ProductsListFragment : Fragment() {
     private val binding by lazy { _binding!! }
 
     private val viewModel: ProductListViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
+    @Inject
+    lateinit var uiStateGenerator: ProductsListFragmentUiStateGenerator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,39 +46,10 @@ class ProductsListFragment : Fragment() {
         //controller.setData(ProductListFragmentUiState.Loading)
 
         combine(
-            viewModel.store.stateFlow.map { it.products},
-            viewModel.store.stateFlow.map { it.favouriteProductIds },
-            viewModel.store.stateFlow.map { it.expandedProductIds },
+            viewModel.uiProductListReducer.reduce(viewModel.store),
             viewModel.store.stateFlow.map { it.productFilterInfo },
-            viewModel.store.stateFlow.map { it.inCartProductIds }
-        ){listOfProducts, setOfFavouriteIds, setOfExpandedProductIds, productFilterInfo, inCartproductIds ->
-
-            if (listOfProducts.isEmpty()){
-                return@combine ProductListFragmentUiState.Loading
-            }
-
-            val uiProducts = listOfProducts.map{ products ->
-                UiProduct(
-                    product = products,
-                    isFavourite = setOfFavouriteIds.contains(products.id),
-                    isExpanded = setOfExpandedProductIds.contains(products.id),
-                    isInCart = inCartproductIds.contains(products.id)
-                )
-            }
-            val uiFilters = productFilterInfo.filters.map { filter ->
-                UiFilter(
-                    filter =  filter,
-                    isSelected = productFilterInfo.selectedFilter?.equals(filter) == true
-                )
-            }.toSet()
-
-            val filteredProducts = if (productFilterInfo.selectedFilter == null){
-                uiProducts
-            }else{
-                uiProducts.filter { it.product.category == productFilterInfo.selectedFilter.value }
-            }
-
-            return@combine ProductListFragmentUiState.Success(uiFilters,filteredProducts)
+        ){ uiProducts, productFilterInfo ->
+            uiStateGenerator.generate(uiProducts,productFilterInfo)
 
         }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner){ uiProduct ->
             controller.setData(uiProduct)

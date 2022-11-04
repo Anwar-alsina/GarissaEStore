@@ -8,6 +8,7 @@ import com.example.garissaestore.R
 import com.example.garissaestore.databinding.EpoxyModelProductItemBinding
 import com.example.garissaestore.model.ui.UiProduct
 import java.text.NumberFormat
+import kotlin.math.roundToInt
 import kotlin.reflect.KFunction1
 
 data class UiProductEpoxyModel(
@@ -62,6 +63,9 @@ data class UiProductEpoxyModel(
             productImageViewLoadingProgressBar.isGone = true
             }
         }
+
+        ratingIndicator.progress = (uiProduct.product.rating.value * 10).roundToInt()
+            ratingTextView.text = "${uiProduct.product.rating.value * 10}"
     }?: shimmerLayout.startShimmer()
 
 }

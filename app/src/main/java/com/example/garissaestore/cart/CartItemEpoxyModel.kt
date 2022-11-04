@@ -8,19 +8,21 @@ import com.example.garissaestore.R
 import com.example.garissaestore.databinding.EpoxyModelCartProductItemBinding
 import com.example.garissaestore.epoxy.ViewBindingKotlinModel
 import com.example.garissaestore.model.ui.UiProduct
+import com.example.garissaestore.model.ui.UiProductInCart
 
 data class CartItemEpoxyModel(
-    private val uiProduct: UiProduct,
+    private val uiProductInCart: UiProductInCart,
     val onFavouriteClicked: () -> Unit,
     private val onDeleteClicked: () -> Unit,
+    private val onQuantityChanged: (Int) ->Unit,
     @Dimension(unit = Dimension.PX) private val horizontalMargin: Int
 ): ViewBindingKotlinModel<EpoxyModelCartProductItemBinding>(R.layout.epoxy_model_cart_product_item){
     override fun EpoxyModelCartProductItemBinding.bind() {
         //setup text
-        productTitleTextView.text = uiProduct.product.title
+        productTitleTextView.text = uiProductInCart.uiProduct.product.title
 
         //Fav icon
-        val imageRes = if (uiProduct.isFavourite){
+        val imageRes = if (uiProductInCart.uiProduct.isFavourite){
             R.drawable.ic_fav_filed
         }else {
             R.drawable.ic_fav_not_filled
@@ -31,15 +33,15 @@ data class CartItemEpoxyModel(
         deleteItem.setOnClickListener { onDeleteClicked() }
 
         //Load the image
-        productImageView.load(data = uiProduct.product.image)
+        productImageView.load(data = uiProductInCart.uiProduct.product.image)
 
         root.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             setMargins(horizontalMargin, 0, horizontalMargin, 0)
         }
         quantityView.apply {
-            quantityTextView.text = 9.toString()
-            minusImageView.setOnClickListener {  }
-            plusImageView.setOnClickListener {  }
+            quantityTextView.text = uiProductInCart.quantity.toString()
+            minusImageView.setOnClickListener { onQuantityChanged(uiProductInCart.quantity - 1) }
+            plusImageView.setOnClickListener { onQuantityChanged(uiProductInCart.quantity + 1) }
         }
     }
 

@@ -11,7 +11,9 @@ import com.example.garissaestore.MainActivity
 import com.example.garissaestore.R
 import com.example.garissaestore.databinding.FragmentCartBinding
 import com.example.garissaestore.model.ui.UiProduct
+import com.example.garissaestore.model.ui.UiProductInCart
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -42,8 +44,16 @@ class CartFragment : Fragment() {
         })
         binding.rvEpoxy.setController(epoxyController)
 
-        viewModel.uiProductListReducer.reduce(store = viewModel.store).map {uiProducts ->
+        val uiProductInCartFlow = viewModel.uiProductListReducer.reduce(store = viewModel.store).map {uiProducts ->
             uiProducts.filter { it.isInCart }
+        }
+        combine(
+            uiProductInCartFlow,
+            viewModel.store.stateFlow.map { it.cartQuantitiesMap }
+        ){uiProducts, quatityMap ->
+            uiProducts.map {
+                UiProductInCart(uiProduct = it, quantity = quatityMap[it.product.id] ?: 1)
+            }
         }.distinctUntilChanged().asLiveData().observe(viewLifecycleOwner){uiProducts ->
             val viewState = if (uiProducts.isEmpty()){
                 UiState.Empty
@@ -62,7 +72,7 @@ class CartFragment : Fragment() {
 
     sealed interface UiState{
         object Empty: UiState
-        data class NonEmpty(val products: List<UiProduct>): UiState
+        data class NonEmpty(val products: List<UiProductInCart>): UiState
     }
 
 }

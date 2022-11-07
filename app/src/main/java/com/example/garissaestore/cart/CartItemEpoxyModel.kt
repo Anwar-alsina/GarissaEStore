@@ -11,13 +11,15 @@ import com.example.garissaestore.model.ui.UiProduct
 import com.example.garissaestore.model.ui.UiProductInCart
 
 data class CartItemEpoxyModel(
-    private val uiProductInCart: UiProductInCart,
+    val uiProductInCart: UiProductInCart,
     val onFavouriteClicked: () -> Unit,
     private val onDeleteClicked: () -> Unit,
     private val onQuantityChanged: (Int) ->Unit,
     @Dimension(unit = Dimension.PX) private val horizontalMargin: Int
 ): ViewBindingKotlinModel<EpoxyModelCartProductItemBinding>(R.layout.epoxy_model_cart_product_item){
     override fun EpoxyModelCartProductItemBinding.bind() {
+        swipeToDismissTextView.translationX = 0f
+
         //setup text
         productTitleTextView.text = uiProductInCart.uiProduct.product.title
 
@@ -30,7 +32,7 @@ data class CartItemEpoxyModel(
         favoriteImageView.setIconResource(imageRes)
         favoriteImageView.setOnClickListener { onFavouriteClicked() }
 
-        deleteItem.setOnClickListener { onDeleteClicked() }
+        //deleteItem.setOnClickListener { onDeleteClicked() }
 
         //Load the image
         productImageView.load(data = uiProductInCart.uiProduct.product.image)

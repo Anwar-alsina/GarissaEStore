@@ -1,91 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="4dp"
-    android:paddingBottom="16dp"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    app:cardCornerRadius="@dimen/corner_radius"
-    app:cardElevation="8dp">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/swipeToDismissTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_rounded_12"
+        android:backgroundTint="@color/error_red"
+        android:gravity="center"
+        android:text="Swipe to delete"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/productImageView"
+        app:layout_constraintEnd_toEndOf="@id/productImageView"
+        app:layout_constraintStart_toStartOf="@id/productImageView"
+        app:layout_constraintTop_toTopOf="@id/productImageView" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/productImageView"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:background="@color/purple_100"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerRound"
+        tools:src="@tools:sample/backgrounds/scenic[2]" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/productImageView"
-            android:layout_width="104dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:background="@color/purple_100"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerRound"
-            tools:src="@tools:sample/backgrounds/scenic[2]" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favoriteImageView"
+        style="@style/Widget.Material3.Button.Icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="6dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:icon="@drawable/ic_fav_not_filled"
+        app:iconGravity="textEnd"
+        app:iconSize="12dp"
+        app:layout_constraintEnd_toEndOf="@id/productImageView"
+        app:layout_constraintTop_toTopOf="@id/productImageView" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/favoriteImageView"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="6dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/ic_fav_not_filled"
-            app:iconGravity="textEnd"
-            app:iconSize="12dp"
-            app:layout_constraintEnd_toEndOf="@id/productImageView"
-            app:layout_constraintTop_toTopOf="@id/productImageView"
-            tools:ignore="DuplicateClickableBoundsCheck" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/productTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/purple_900"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productImageView"
+        app:layout_constraintTop_toTopOf="@id/productImageView"
+        tools:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/productTitleTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/purple_900"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/productImageView"
-            app:layout_constraintEnd_toStartOf="@+id/icDelete"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/productImageView"
-            app:layout_constraintTop_toTopOf="@+id/productImageView"
-            app:layout_constraintVertical_bias="0.12"
-            tools:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops" />
+    <include
+        android:id="@+id/quantityView"
+        layout="@layout/layout_quantity_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/productTitleTextView" />
 
-        <include
-            android:id="@+id/quantityView"
-            layout="@layout/layout_quantity_selector"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="116dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/productImageView"
-            app:layout_constraintTop_toBottomOf="@+id/productTitleTextView" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/deleteItem"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="36dp"
-            android:layout_height="41dp"
-            android:layout_margin="8dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="@dimen/corner_radius"
-            app:icon="@drawable/ic_delete"
-            app:iconGravity="textEnd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productTitleTextView" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

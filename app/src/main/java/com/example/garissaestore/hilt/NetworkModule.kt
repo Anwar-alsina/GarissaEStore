@@ -1,6 +1,7 @@
 package com.example.garissaestore.hilt
 
 import com.example.garissaestore.model.network.ProductsService
+import com.example.garissaestore.profile.auth.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +40,11 @@ object NetworkModule {
     @Singleton
     fun providesProductsService(retrofit: Retrofit): ProductsService {
         return retrofit.create(ProductsService::class.java)
+    }
 
+    @Provides
+    @Singleton
+    fun providesAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 }

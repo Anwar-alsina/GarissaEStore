@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_products_list" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.garissaestore.ProfileFragment"
+        android:name="com.example.garissaestore.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment

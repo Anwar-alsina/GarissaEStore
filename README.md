@@ -36,6 +36,8 @@ This App uses Clean Architecture to ensure:
 <img src="https://user-images.githubusercontent.com/47518452/202248181-5dfc20c0-15ef-4b3f-8a4a-9a0902c8a5b5.png" width="240" height="510">
 
 ##Project idea 
+
+
 I am following this projects implementation from the Android Factory Youtube channel. 
 
 

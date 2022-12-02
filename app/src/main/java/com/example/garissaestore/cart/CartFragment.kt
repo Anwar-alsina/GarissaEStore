@@ -13,15 +13,16 @@ import com.airbnb.epoxy.EpoxyTouchHelper
 import com.example.garissaestore.MainActivity
 import com.example.garissaestore.R
 import com.example.garissaestore.databinding.FragmentCartBinding
-import com.example.garissaestore.model.ui.UiProduct
 import com.example.garissaestore.model.ui.UiProductInCart
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Collections.max
+import java.math.BigDecimal
+import java.text.NumberFormat
 import kotlin.math.max
+
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -30,6 +31,7 @@ class CartFragment : Fragment() {
     private val binding by lazy {_binding!!}
 
     private val viewModel: CartFragmentViewModel by viewModels()
+    private val currencyFormatter = NumberFormat.getCurrencyInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,8 +69,22 @@ class CartFragment : Fragment() {
                 UiState.NonEmpty(uiProducts)
             }
             epoxyController.setData(viewState)
+            updateTotalLayout(uiProducts)
+            setupSwipeToDelete()
         }
+        binding.checkoutButton.setOnClickListener {
+            //todo
+        }
+    }
 
+    private fun updateTotalLayout(uiProductsInCart: List<UiProductInCart>) {
+        val totalAmount = uiProductsInCart.sumOf { BigDecimal(it.quantity) * it.uiProduct.product.price }
+        val description = "${uiProductsInCart.size} items for ${currencyFormatter.format(totalAmount)}"
+        binding.totalDescription.text = description
+        binding.checkoutButton.isEnabled = uiProductsInCart.isNotEmpty()
+    }
+
+    private fun setupSwipeToDelete() {
         EpoxyTouchHelper
             .initSwiping(binding.rvEpoxy)
             .right()
@@ -105,9 +121,8 @@ class CartFragment : Fragment() {
                 }
 
             }
-            )
+            )    }
 
-    }
 
     override fun onDestroy() {
         super.onDestroy()

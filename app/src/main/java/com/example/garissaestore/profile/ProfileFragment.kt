@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.map
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var _binding: FragmentProfileBinding? = null
-    private val binding by lazy { _binding!! }
+    private val binding by lazy {
+        _binding!!
+    }
 
     private val authViewModel by viewModels<AuthViewModel>()
 
